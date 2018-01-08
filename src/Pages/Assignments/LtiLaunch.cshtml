@@ -1,0 +1,22 @@
+﻿@page
+@model Assignments.LtiLaunchModel
+@{
+    ViewData["Title"] = Model.LtiRequest.ResourceLinkTitle;
+    Layout = "~/Pages/Assignments/_LtiLayout.cshtml";
+}
+
+<form id="form" action="@Model.LtiRequest.Url" method="post">
+    @foreach (var pair in Model.LtiRequest.Parameters)
+    {
+        <input type="hidden" name="@pair.Key" value="@pair.Value"/>
+    }
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            $("#form").submit();
+        })
+    </script>
+}

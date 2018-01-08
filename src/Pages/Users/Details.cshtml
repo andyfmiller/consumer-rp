@@ -1,0 +1,67 @@
+﻿@page
+@model Users.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.UserName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.SourcedId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.SourcedId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.SendNames)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.SendNames)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.SendEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.SendEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.Roles)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.Roles)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.ApplicationUser.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

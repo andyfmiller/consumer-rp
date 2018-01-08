@@ -1,0 +1,73 @@
+﻿@page
+@model Users.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+<h4>User</h4>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUsers[0].UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUsers[0].SourcedId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUsers[0].FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUsers[0].SendNames)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUsers[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUsers[0].SendEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUsers[0].Roles)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ApplicationUsers.OrderBy(u => u.UserName)) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SourcedId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => item.SendNames, new { disabled = true })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => item.SendEmail, new { disabled = true })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Roles)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

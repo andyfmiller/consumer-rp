@@ -1,0 +1,69 @@
+﻿@page
+@model Users.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="Input.Id" />
+            <div class="form-group">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.SourcedId"></label>
+                <input asp-for="Input.SourcedId" class="form-control" />
+                <span asp-validation-for="Input.SourcedId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.FirstName"></label>
+                <input asp-for="Input.FirstName" class="form-control" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.LastName"></label>
+                <input asp-for="Input.LastName" class="form-control" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input asp-for="Input.SendNames" type="checkbox" />
+                    <label asp-for="Input.SendNames"></label>
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input asp-for="Input.SendEmail" type="checkbox" />
+                    <label asp-for="Input.SendEmail"></label>
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.UserRoles"></label>
+                <select asp-for="Input.UserRoles" asp-items="Model.InstitutionalRoles" multiple="multiple" class="form-control"></select>
+            </div>
+
+            <button type="submit" class="btn btn-default">Save</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

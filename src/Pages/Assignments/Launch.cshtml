@@ -1,0 +1,27 @@
+﻿@page
+@model Assignments.LaunchModel
+@{
+    ViewData["Title"] = Model.Assignment.Name;
+}
+
+@if (Model.Assignment.IsLtiLink)
+{
+    <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="LtiLaunch?courseId=@Model.CourseId&assignmentId=@Model.Assignment.Id&returnUrl=@Model.ReturnUrl" onload="locationChange(this.contentWindow.location);"></iframe>
+    </div>
+}
+else
+{
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe class="embed-responsive-item" src="@Model.Assignment.Url"></iframe>
+    </div>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function locationChange(location) {
+            this.document.location = location;
+        }
+    </script>
+}

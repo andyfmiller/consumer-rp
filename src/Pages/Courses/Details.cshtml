@@ -1,0 +1,118 @@
+﻿@page
+@using Courses
+@using Extensions
+@model Courses.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Course</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Course.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Course.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Course.CourseInstructors)
+        </dt>
+        <dd>
+            @string.Join(", ", Model.Course.CourseInstructors.Select(i => i.Instructor.UserName))
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Course.CourseAssignments)
+        </dt>
+        <dd>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Course.CourseAssignments.FirstOrDefault().Assignment.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Course.CourseAssignments.FirstOrDefault().Assignment.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Course.CourseAssignments.FirstOrDefault().Assignment.Url)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Course.CourseAssignments.FirstOrDefault().Assignment.IsLtiLink)
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Course.CourseAssignments.OrderBy(a => a.Assignment.Name))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Assignment.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Assignment.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Assignment.Url)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Assignment.IsLtiLink)
+                        </td>
+                        <td>
+                            <a asp-page="/Assignments/Launch" asp-route-courseId="@Model.Course.Id" asp-route-assignmentId="@item.AssignmentId" asp-route-returnUrl="@Model.ReturnUrl">Launch</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <text>|</text>
+                                <a asp-page="/Assignments/Edit" asp-route-id="@item.AssignmentId" asp-route-returnUrl="@Model.ReturnUrl">Edit</a>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+    <h4>Grades</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            @foreach(var assignment in Model.Course.CourseAssignments.OrderBy(a => a.Assignment.Name))
+            {
+                <th>
+                    @Html.DisplayFor(modelItem => assignment.Assignment.Name)
+                </th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var student in Model.Course.CourseStudents.OrderBy(s => s.Student.UserName))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => student.Student.UserName)
+                </td>
+                @foreach(var assignment in Model.Course.CourseAssignments)
+                {
+                    <td>
+                        @await Model.GetScore(assignment.AssignmentId, student.StudentId)
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-page="./Edit" asp-route-id="@Model.Course.Id">Edit</a>
+        <text>|</text>
+    }
+    <a asp-page="./Index">Back to List</a>
+</div>

@@ -1,0 +1,74 @@
+﻿@page
+@model Courses.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+<h4>Course</h4>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].CourseInstructors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].CourseStudents)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].CourseAssignments)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Course) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @string.Join(", ", item.CourseInstructors.OrderBy(i => i.Instructor.UserName).Take(2).Select(u => u.Instructor.UserName))
+                @if (item.CourseInstructors.Count > 2)
+                {
+                    <text>...</text>
+                }
+            </td>
+            <td>
+                @string.Join(", ", item.CourseStudents.OrderBy(s => s.Student.UserName).Take(3).Select(u => u.Student.UserName))
+                @if (item.CourseStudents.Count > 3)
+                {
+                    <text>...</text>
+                }
+            </td>
+            <td>
+                @string.Join(", ", item.CourseAssignments.OrderBy(a => a.Assignment.Name).Select(a => a.Assignment.Name))
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+    {
+            <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+            <text>|</text>
+            <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+            <text>|</text>
+            <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+}
+else
+{
+            <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+}
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
