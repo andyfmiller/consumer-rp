@@ -11,8 +11,8 @@ using System;
 namespace Consumer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171230181620_RemoveNullable")]
-    partial class RemoveNullable
+    [Migration("20180108001446_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,10 +30,6 @@ namespace Consumer.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<int?>("CourseId");
-
-                    b.Property<int?>("CourseId1");
 
                     b.Property<string>("CreatorId");
 
@@ -70,18 +66,15 @@ namespace Consumer.Migrations
 
                     b.Property<bool>("SendNames");
 
+                    b.Property<string>("SourcedId")
+                        .HasMaxLength(50);
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("CourseId1");
-
-                    b.HasIndex("CreatorId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -105,8 +98,6 @@ namespace Consumer.Migrations
                     b.Property<string>("ConsumerSecret")
                         .HasMaxLength(50);
 
-                    b.Property<int>("CourseId");
-
                     b.Property<string>("CreatorId");
 
                     b.Property<string>("CustomParameters")
@@ -119,13 +110,10 @@ namespace Consumer.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasMaxLength(1024);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("CreatorId");
 
                     b.ToTable("Assignment");
                 });
@@ -143,9 +131,64 @@ namespace Consumer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
-
                     b.ToTable("Course");
+                });
+
+            modelBuilder.Entity("Consumer.Models.CourseAssignment", b =>
+                {
+                    b.Property<int>("CourseId");
+
+                    b.Property<int>("AssignmentId");
+
+                    b.HasKey("CourseId", "AssignmentId");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.ToTable("CourseAssignment");
+                });
+
+            modelBuilder.Entity("Consumer.Models.CourseInstructor", b =>
+                {
+                    b.Property<int>("CourseId");
+
+                    b.Property<string>("InstructorId");
+
+                    b.HasKey("CourseId", "InstructorId");
+
+                    b.HasIndex("InstructorId");
+
+                    b.ToTable("CourseInstructor");
+                });
+
+            modelBuilder.Entity("Consumer.Models.CourseStudent", b =>
+                {
+                    b.Property<int>("CourseId");
+
+                    b.Property<string>("StudentId");
+
+                    b.HasKey("CourseId", "StudentId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("CourseStudent");
+                });
+
+            modelBuilder.Entity("Consumer.Models.Score", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AssignmentId");
+
+                    b.Property<int>("CourseId");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<double>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Score");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -256,38 +299,43 @@ namespace Consumer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Consumer.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Consumer.Models.CourseAssignment", b =>
                 {
-                    b.HasOne("Consumer.Models.Course")
-                        .WithMany("Instructors")
-                        .HasForeignKey("CourseId");
+                    b.HasOne("Consumer.Models.Assignment", "Assignment")
+                        .WithMany("CourseAssignments")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Consumer.Models.Course")
-                        .WithMany("Students")
-                        .HasForeignKey("CourseId1");
-
-                    b.HasOne("Consumer.Models.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
+                    b.HasOne("Consumer.Models.Course", "Course")
+                        .WithMany("CourseAssignments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Consumer.Models.Assignment", b =>
+            modelBuilder.Entity("Consumer.Models.CourseInstructor", b =>
                 {
                     b.HasOne("Consumer.Models.Course", "Course")
-                        .WithMany("Assignments")
+                        .WithMany("CourseInstructors")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Consumer.Models.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
+                    b.HasOne("Consumer.Models.ApplicationUser", "Instructor")
+                        .WithMany("CourseInstructors")
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Consumer.Models.Course", b =>
+            modelBuilder.Entity("Consumer.Models.CourseStudent", b =>
                 {
-                    b.HasOne("Consumer.Models.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
+                    b.HasOne("Consumer.Models.Course", "Course")
+                        .WithMany("CourseStudents")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Consumer.Models.ApplicationUser", "Student")
+                        .WithMany("CourseStudents")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
