@@ -33,9 +33,8 @@
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("Admin"))
 {
-                <li><a asp-page="/About">About</a></li>
-                <li><a asp-page="/Assignments/Index">Assignments</a></li>
                 <li><a asp-page="/Users/Index">Users</a></li>
+                <li><a asp-page="/Assignments/Index">Assignments</a></li>
                 <li><a asp-page="/Courses/Index">Courses</a></li>
 }
 else
