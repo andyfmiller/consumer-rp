@@ -1,33 +1,60 @@
 ﻿@page
-@model IndexModel
+@model Consumer.Pages.IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
 <div class="jumbotron">
-    <h1>LTI Consumer</h1>
+    <h1>LTI Consumer Sample</h1>
 </div>
 <div class="row">
     <div class="col-md-4">
-        <h2>Welcome to the LTI Consumer Sample</h2>
+        <h2>LTI Consumer Sample</h2>
         <p>
             This is a sample application that
-            demonstrates how to use LtiLibrary in an
-            ASP.NET Core Razor Pages web app.
+            demonstrates how to use 
+            <a href="https://www.nuget.org/packages/LtiLibrary.NetCore" target="_blank">LtiLibrary.NetCore</a>
+            and <a href="https://www.nuget.org/packages/LtiLibrary.AspNetCore" target="_blank">LtiLibrary.AspNetCore</a>
+            in an ASP.NET Core Razor Pages web app.
         </p>
     </div>
     <div class="col-md-4">
-        <h2>Build it from scratch</h2>
-        <p>You can build the application by following the steps in a series of tutorials.</p>
-        <p><a class="btn btn-default" 
-              href="https://docs.microsoft.com/aspnet/core/data/ef-rp/intro">
-            See the tutorial &raquo;</a></p>
+        <h2>Demo Accounts</h2>
+        <p>
+            There is a sample course with one LTI assignment and 9 students. You may
+            log in as the instructor or one of the students in the sample course by
+            clicking one of the buttons below.
+        </p>
+        <p>
+            <form asp-page="/Index" method="post" style="display:inline">
+                <input type="hidden" name="username" value="instructor@contoso.edu" />
+                <button type="submit" class="btn btn-default">Instructor</button>
+            </form>
+            <form asp-page="/Index" method="post" style="display:inline">
+                <input type="hidden" name="username" value="student1@contoso.edu" />
+                <button type="submit" class="btn btn-default">Student</button>
+            </form>
+        </p>
+        <h2>Create Your Own</h2>
+        <p>
+            Or, you may prefer to create your own!
+        </p>
+        <ol>
+            <li><a asp-page="/Account/Register">Register</a> to create your own Admin account.</li>
+            <li><a asp-page="/Users/Create">Create Users</a>. Only you will be able to see and
+                manage your users.</li>
+            <li><a asp-page="/Assignments/Create">Create Assignments</a>. Each assignment can
+                point to a different LTI Tool.</li>
+            <li><a asp-page="/Courses/Creat">Create Courses</a>. Enroll your instructors, students,
+                and assignments into courses.</li>
+        </ol>
     </div>
     <div class="col-md-4">
         <h2>Download it</h2>
-        <p>You can download the completed project from GitHub.</p>
+        <p>You can download the complete sample from GitHub.</p>
         <p><a class="btn btn-default" 
-              href="https://github.com/aspnet/Docs/tree/master/aspnetcore/data/ef-rp/intro/samples/cu-final">
+              href="https://github.com/andyfmiller/consumer-rp"
+              target="_blank">
             See project source code &raquo;</a></p>
     </div>
 </div>

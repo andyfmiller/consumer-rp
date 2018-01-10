@@ -1,5 +1,4 @@
-﻿@using Models
-@inject UserManager<ApplicationUser> UserManager
+﻿@inject UserManager<ApplicationUser> UserManager
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,9 +34,9 @@
                     @if (User.IsInRole("Admin"))
 {
                 <li><a asp-page="/About">About</a></li>
-                <li><a asp-page="/Courses/Index">Courses</a></li>
                 <li><a asp-page="/Assignments/Index">Assignments</a></li>
                 <li><a asp-page="/Users/Index">Users</a></li>
+                <li><a asp-page="/Courses/Index">Courses</a></li>
 }
 else
 {
