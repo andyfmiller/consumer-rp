@@ -79,6 +79,7 @@ namespace Consumer.Pages.Assignments
                         roles.Add(ContextRole.Learner.ToString());
                     }
 
+                    // Add Basic Outcomes service
                     var resultSourcedId = new OutcomesController.ResultSourcedId
                     {
                         AssignmentId = assignment.Id,
@@ -90,6 +91,12 @@ namespace Consumer.Pages.Assignments
                     {
                         LtiRequest.LisResultSourcedId = JsonConvert.SerializeObject(resultSourcedId);
                         LtiRequest.LisOutcomeServiceUrl = serviceUri.AbsoluteUri;
+                    }
+
+                    // Add Membership service
+                    if (Uri.TryCreate(new Uri(Request.GetDisplayUrl()), $"/membership/context/{courseId}?assignmentId={assignmentId}", out serviceUri))
+                    {
+                        LtiRequest.AddCustomParameter("context_memberships_url", serviceUri.AbsoluteUri);
                     }
                 }
             }
