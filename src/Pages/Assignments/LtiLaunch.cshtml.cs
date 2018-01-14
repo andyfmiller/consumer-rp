@@ -50,7 +50,7 @@ namespace Consumer.Pages.Assignments
                 ResourceLinkId = assignment.Id.ToString(),
                 UserName = user.UserName
             };
-            LtiRequest.CustomParameters = assignment.CustomParameters;
+            LtiRequest.SetCustomParameters(assignment.CustomParameters);
 
             if (!string.IsNullOrEmpty(returnUrl))
             {
