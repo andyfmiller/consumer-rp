@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Consumer.Models;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -70,7 +71,7 @@ namespace Consumer.Pages.Courses
             var score = await _context.Score
                 .SingleOrDefaultAsync(s =>
                     s.CourseId == Course.Id && s.AssignmentId == assignmentId && s.UserId == studentId);
-            return score == null ? "n/a" : score.Value.ToString();
+            return score == null ? "n/a" : score.Value.ToString(CultureInfo.CurrentCulture);
         }
     }
 }

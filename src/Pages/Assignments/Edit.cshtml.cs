@@ -78,10 +78,8 @@ namespace Consumer.Pages.Assignments
             {
                 return RedirectToPage("./Index");
             }
-            else
-            {
-                return Redirect(ReturnUrl);
-            }
+
+            return Redirect(ReturnUrl);
         }
 
         private bool AssignmentExists(int id)

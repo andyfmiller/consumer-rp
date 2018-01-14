@@ -110,7 +110,7 @@ namespace Consumer.Data
                     ConsumerKey = "12345",
                     ConsumerSecret = "secret",
                     CreatorId = creator.Id,
-                    Url = "https://lti.tools/test/tp.php"
+                    Url = "https://lti.tools/saltire/tp"
                 };
                 await context.Assignment.AddAsync(assignment);
                 await context.SaveChangesAsync();

@@ -136,7 +136,7 @@ namespace Consumer.Controllers
                 {
                     AssignmentId = resultSourcedId.AssignmentId,
                     CourseId = resultSourcedId.CourseId,
-                    UserId = resultSourcedId.UserId,
+                    UserId = resultSourcedId.UserId
                 };
                 await _context.Score.AddAsync(score);
                 await _context.SaveChangesAsync();
